@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Game Ping-Pong</title>
+    <style>
+      * {
+        overflow: hidden;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas></canvas>
+    <script>
+      const canvasEl = document.querySelector("canvas"),
+        canvasCtx = canvasEl.getContext("2d"),
+        gapX = 10
+
+      const field = { //Campo
+        w: window.innerWidth,
+        h: window.innerHeight,
+        draw: function () {
+            canvasCtx.fillStyle = "#BC8F8F"//Desenho do campo
+            canvasCtx.fillRect(0, 0, this.w, this.h)
+        },
+      }
+
+      const line = {
+        w: 15,
+        h: field.h,
+        draw: function() {
+            canvasCtx.fillStyle = "#ffffff"
+            canvasCtx.fillRect(
+                field.w / 2 - this.w / 2, 0, this.w, this.h
+            )
+        },
+      }
+
+      const leftPaddle = { //Raquete esquerda   
+        x: gapX,
+        y: 100,
+        w: line.w,
+        h: 200,
+        draw: function (){
+            canvasCtx.fillStyle = "#ffffff"
+            canvasCtx.fillRect(this.x, this.y, this.w, this.h)
+        }
+      }
+
+      const rightPaddle = { //Raquete direita
+        x: field.w - line.w - gapX,
+        y: 100,
+        w: line.w,
+        h: 200,
+        draw: function (){
+            canvasCtx.fillStyle = "#ffffff"
+            canvasCtx.fillRect(this.x, this.y, this.w, this.h)
+        }
+      }
+
+      const score = {
+        human: 1,
+        computer: 2,
+        draw: function (){//Placar
+            canvasCtx.font = "bold 70px Roboto"
+            canvasCtx.textAlign = "center"
+            canvasCtx.textBaseline = "top"
+            canvasCtx.fillStyle = "#708090"
+            canvasCtx.fillText(this.human, field.w / 4, 50)
+            canvasCtx.fillText(this.computer, field.w / 4 + window.innerWidth / 2, 50)
+        }
+      }
+
+      const ball = {
+        x: 320,
+        y: 120,
+        r: 20,
+        draw: function(){//Bolinha    
+            canvasCtx.fillStyle = "#ffffff"
+            canvasCtx.beginPath()
+            canvasCtx.arc(this.x, this.y, this.r, 0, 2 * Math.PI)
+            canvasCtx.fill()
+        },
+      }
+
+      function setup() {//<--Comprimento da tela-->
+        canvasEl.width = canvasCtx.width = field.w
+        canvasEl.height = canvasCtx.height = field.h
+      }
+
+      function draw() {//Executa metodo draw de todos os objetos
+        field.draw()
+        line.draw()
+        leftPaddle.draw()
+        rightPaddle.draw()
+        score.draw()
+        ball.draw()
+      }
+      
+      setup()
+      draw()
+    </script>
+  </body>
+</html>
